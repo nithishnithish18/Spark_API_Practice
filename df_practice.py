@@ -107,3 +107,23 @@ addressDF.printSchema()
 
 joinedDF = customerDF.join(addressDF, customerDF.c_current_addr_sk == addressDF.ca_address_sk)
 display(joinedDF)
+DF1 = df.select(col("lname").alias("first_name"), col("lname").alias("last_name"),col("id"),col("gender"))
+# BETWEEN function
+DF2 = DF1.filter(col("id").between(100,400))
+DF2.show()
+
+#ISNULL and ISNOTNULL 
+DF3 = df.filter(col("gender").isNull())
+DF3.show()
+DF4 = df.filter(col("gender").isNotNull())
+DF4.show()
+
+#when() and otherwise()
+DF5 = df.select(col("fname"),col("lname"),when(col("gender")=="M","male").\
+                when(col("gender")=="F","female").\
+                when(col("gender")=="","none").otherwise(col("gender")).alias("new_gender"))
+DF5.show()
+
+
+
+
