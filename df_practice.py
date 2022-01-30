@@ -189,3 +189,4 @@ df2.show()
 df.createOrReplaceTempView("employee")
 df3 = spark.sql("select * from employee order by department,state asc ")
 df3.show()
+
