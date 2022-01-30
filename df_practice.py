@@ -124,6 +124,34 @@ DF5 = df.select(col("fname"),col("lname"),when(col("gender")=="M","male").\
                 when(col("gender")=="","none").otherwise(col("gender")).alias("new_gender"))
 DF5.show()
 
+#drop and dropDuplicates
+data = [("James", "Sales", 3000), \
+    ("Michael", "Sales", 4600), \
+    ("Robert", "Sales", 4100), \
+    ("Maria", "Finance", 3000), \
+    ("James", "Sales", 3000), \
+    ("Scott", "Finance", 3300), \
+    ("Jen", "Finance", 3900), \
+    ("Jeff", "Marketing", 3000), \
+    ("Kumar", "Marketing", 2000), \
+    ("Saif", "Sales", 4100) \
+  ]
+columns= ["employee_name", "department", "salary"]
+df = spark.createDataFrame(data = data, schema = columns)
+print("no of rowz with duplicates "+str(df.count()))
+df.show()
 
 
+#PySpark distinct() function is used to drop/remove the duplicate rows (all columns) from DataFrame 
+df1 = df.distinct()
+print("distinct no of rows is "+ str(df1.count()))
+df1.show()
+'''
+PySpark doesn’t have a distinct method which takes columns that should run distinct on
+(drop duplicate rows on selected multiple columns) however, it provides another signature
+of dropDuplicates() function which takes multiple columns to eliminate duplicates.
+'''
+df2 = df.dropDuplicates(["department","salary"])
+print("dropDuplicate based in selected columns "+str(df2.count()))
+df2.show()
 
